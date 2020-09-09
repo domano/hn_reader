@@ -1,8 +1,7 @@
 name: Client build
 on:
   push:
-    paths:
-      - '.github/workflows/**'
+    branches: [ master ]
   pull_request:
     branches: [develop]
     paths:
