@@ -8,7 +8,10 @@ on:
     - master
     
 # on: push    # Default will running for every branch.
-    
+defaults:
+  run:
+    working-directory: hn_reader
+
 jobs:
   build:
     # This job will run on ubuntu virtual machine
