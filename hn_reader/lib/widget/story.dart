@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 class StoryCard extends StatelessWidget {
   final Story story;
-
   const StoryCard({
     Key key, this.story,
   }) : super(key: key);
@@ -19,14 +18,16 @@ class StoryCard extends StatelessWidget {
             _launchURL(story.url);
           },
           child: Container(
+            height: 100,
+            alignment: AlignmentDirectional.center,
+
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 ListTile(
-                  leading: Icon(Icons.article),
-                  title: Text('${story.title}'),
-                  subtitle: Text(
-                      '${DateTime.fromMillisecondsSinceEpoch(story.time)}'),
+                  leading: Icon(Icons.article, size: 30, ),
+                  title: Text('${story.title}', textAlign: TextAlign.left,),
+
                 ),
               ],
             ),

@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hn_reader/model/story.dart';
+import 'package:hn_reader/widget/progress.dart';
 import 'package:hn_reader/widget/story.dart';
 import 'package:http/http.dart' as http;
 
 class StoryList extends StatelessWidget {
   final List<int> stories;
-  final Map<int, String> titles = new Map();
+  final Map<int, Story> storyCache = new Map();
 
   StoryList(this.stories);
 
   Future<Story> loadStory(int index) {
-    return http
-        .get(
+    return stories.contains(index)?storyCache[index]:
+        http.get(
             'https://hacker-news.firebaseio.com/v0/item/${stories[index]}.json')
-        .then((resp) => storyFromJson(resp.body));
+        .then((resp) {
+          Story story = storyFromJson(resp.body);
+          storyCache[index] = story;
+          return story;
+        });
   }
 
   Widget story(index) {
@@ -23,7 +28,7 @@ class StoryList extends StatelessWidget {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return new CircularProgressIndicator();
+            return new ProgressCard();
           default:
             if (snapshot.hasError) {
               return new Text("${snapshot.error}");
@@ -35,20 +40,6 @@ class StoryList extends StatelessWidget {
     );
   }
 
-/*  @override
-  Widget build(BuildContext context) {
-    return new Container(
-        padding: new EdgeInsets.all(20.0),
-        child: new ListView(
-            children:
-            stories.map((storyId) =>
-                Container(
-                  height: 50,
-                  color: Colors.amber[600],
-                  child: Center(child: Text('$storyId')),
-                ),
-            ).toList()));
-  }*/
 
   @override
   Widget build(BuildContext context) {
