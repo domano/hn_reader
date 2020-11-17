@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hn_reader/model/story.dart';
+import 'package:hn_reader/widget/story.dart';
 import 'package:http/http.dart' as http;
 
 class StoryList extends StatelessWidget {
@@ -19,16 +20,17 @@ class StoryList extends StatelessWidget {
     return new FutureBuilder<Story>(
       future: loadStory(index),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Container(
-            height: 50,
-            color: Colors.amber[600],
-            child: Center(child: Text('${snapshot.data.title}')),
-          );
-        } else if (snapshot.hasError) {
-          return new Text("${snapshot.error}");
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return new CircularProgressIndicator();
+          default:
+            if (snapshot.hasError) {
+              return new Text("${snapshot.error}");
+            }
+            return StoryCard(
+                key: Key(snapshot.data.id.toString()), story: snapshot.data);
         }
-        return new CircularProgressIndicator();
       },
     );
   }
