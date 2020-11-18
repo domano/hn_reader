@@ -4,8 +4,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class StoryCard extends StatelessWidget {
   final Story story;
+
   const StoryCard({
-    Key key, this.story,
+    Key key,
+    this.story,
   }) : super(key: key);
 
   @override
@@ -13,22 +15,33 @@ class StoryCard extends StatelessWidget {
     return Center(
       child: Card(
         child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
+          splashColor: Color(0xFFCC0000),
           onTap: () {
             _launchURL(story.url);
           },
           child: Container(
-            height: 100,
             alignment: AlignmentDirectional.center,
-
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.article, size: 30, ),
-                  title: Text('${story.title}', textAlign: TextAlign.left,),
-
-                ),
+            height: 150,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                    flex: 4,
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20), child:Text('${story.title}', textAlign: TextAlign.left, style: TextStyle(fontSize: 20)))),
+                Flexible(
+                    flex: 1,
+                    child:
+                    Padding(padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10), child:
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.arrow_upward),
+                        Text('${story.score}',
+                            style: TextStyle(color: Colors.black54)),
+                        Icon(Icons.arrow_downward),
+                      ],
+                    ))
+                    )
               ],
             ),
           ),
@@ -45,4 +58,3 @@ _launchURL(String url) async {
     throw 'Could not launch $url';
   }
 }
-

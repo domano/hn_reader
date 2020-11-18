@@ -26,10 +26,8 @@ class ProgressCard extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [Colors.white70, Colors.white12])),
-              height: 100,
-              child: ListTile(
-                leading: Icon(Icons.article),
-              ),
+              height: 150,
+              child:  Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [LinearProgressIndicator(minHeight: 20,),Text("Loading..."),],)
             ),
           );
         });
