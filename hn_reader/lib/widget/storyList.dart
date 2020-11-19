@@ -11,6 +11,9 @@ class StoryList extends StatelessWidget {
   StoryList(this.stories);
 
   Future<Story> loadStory(int index) {
+    if (index > stories.length-1) {
+      return null;
+    }
     return stories.contains(index)?storyCache[index]:
         http.get(
             'https://hacker-news.firebaseio.com/v0/item/${stories[index]}.json')
@@ -46,6 +49,6 @@ class StoryList extends StatelessWidget {
     return new Container(
         padding: new EdgeInsets.all(20.0),
         child: new ListView.builder(
-            itemBuilder: (context, index) => story(index)));
+            itemBuilder: (context, index) => index>stories.length-1?null:story(index)));
   }
 }
